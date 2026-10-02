@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-
 	i3 "go.i3wm.org/i3/v4"
 )
 
@@ -17,7 +16,6 @@ func setLayout(event *i3.WindowEvent) {
 	if err != nil {
 		log.Printf("Error while running command: %v", err)
 	}
-
 }
 
 func isFocusEvent(event *i3.WindowEvent) bool {
