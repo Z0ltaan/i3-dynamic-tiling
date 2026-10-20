@@ -4,6 +4,7 @@ import (
 	"io"
 	"log"
 	"net"
+	"os"
 	"strings"
 	"sync"
 	"sync/atomic"
@@ -31,6 +32,7 @@ func (server *LayoutServer) SetUpNextSplit(event *i3.WindowEvent) {
 
 func (server *LayoutServer) Close() {
 	server.stop.Store(true)
+	os.Remove(server.config.socketPath)
 }
 
 func (s *LayoutServer) Listen() error {
@@ -42,6 +44,7 @@ func (s *LayoutServer) Listen() error {
 	defer s.listener.Close()
 
 	for !s.stop.Load() {
+		log.Println("Waiting for new connections on socket")
 		conn, err := s.listener.Accept()
 		if err != nil {
 			log.Println("Error while accepting connection: ", err)
